@@ -1,5 +1,6 @@
 from telegram import Update
 from telegram.ext import ApplicationBuilder, MessageHandler, ContextTypes, filters
+import asyncio
 
 BOT_TOKEN = "8013086637:AAEn1aTPpkg4wuSSIclgcuLev48MUGBEvtI"
 TARGET_USER_ID = 167546408
@@ -25,8 +26,13 @@ async def forward_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         await context.bot.send_message(chat_id=TARGET_USER_ID, text=iletilecek_mesaj)
 
-app = ApplicationBuilder().token(BOT_TOKEN).build()
-app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, forward_message))
+async def main():
+    app = ApplicationBuilder().token(BOT_TOKEN).build()
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, forward_message))
+    print("✅ Bot çalışıyor... Render uyumlu mod aktif.")
+    await app.start()
+    await app.updater.start_polling()
+    await asyncio.Event().wait()
 
-print("✅ Bot çalışıyor... Detaylı mesaj iletimi açık.")
-app.run_polling()
+if __name__ == '__main__':
+    asyncio.run(main())
