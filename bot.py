@@ -1,10 +1,7 @@
 from telegram import Update
 from telegram.ext import ApplicationBuilder, MessageHandler, ContextTypes, filters
 
-# Bot Token'ınız
 BOT_TOKEN = "8013086637:AAEn1aTPpkg4wuSSIclgcuLev48MUGBEvtI"
-
-# Mesajları ileteceğimiz Telegram Kullanıcı ID'niz
 TARGET_USER_ID = 167546408
 
 async def forward_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -14,9 +11,9 @@ async def forward_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         sender = update.effective_user
 
         chat_name = chat.title or "Özel Sohbet"
-        sender_name = sender.full_name
-        sender_username = f"@{sender.username}" if sender.username else "(kullanıcı adı yok)"
-        sender_id = sender.id
+        sender_name = sender.full_name if sender else "Bilinmeyen"
+        sender_username = f"@{sender.username}" if sender and sender.username else "(kullanıcı adı yok)"
+        sender_id = sender.id if sender else "Bilinmiyor"
 
         iletilecek_mesaj = (
             f"📥 Yeni Mesaj\n"
